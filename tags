@@ -1,0 +1,5 @@
+casenotbase	minishell/cd.c	/^static void	casenotbase(char *path, char **envp)$/;"	f	typeref:typename:void	file:
+cd	minishell/cd.c	/^void	cd(char *fullcmd, char** envp)$/;"	f	typeref:typename:void
+findpath	minishell/cd.c	/^char	*findpath(char **envp)$/;"	f	typeref:typename:char *
+goahead	minishell/cd.c	/^static int	goahead(char *path)$/;"	f	typeref:typename:int	file:
+main	minishell/cd.c	/^int	main (int ac, char **av, char **envp)$/;"	f	typeref:typename:int

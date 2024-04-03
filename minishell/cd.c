@@ -6,11 +6,17 @@
 /*   By: jduraes- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 19:35:28 by jduraes-          #+#    #+#             */
-/*   Updated: 2024/04/03 20:59:03 by jduraes-         ###   ########.fr       */
+/*   Updated: 2024/04/03 21:36:53 by luguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*findpath(char *cmd, char **envp)
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include "libft.h"
+
+char	*findpath(char **envp)
 {
 	int		i;
 
@@ -22,31 +28,38 @@ char	*findpath(char *cmd, char **envp)
 
 static int	goahead(char *path)
 {
-	if (access(path, F_OK) == 0)
+	if (access(path, F_OK))
 		return (0);
 	return (1);
 }
 
-static void	casenotbase(char *path, char** envp)
+static void	casenotbase(char *path, char **envp)
 {
 	char	*newpwd;
 	char	*oldpwd;
 
-	oldpwd = *findpath(path + 3, envp);
-	oldpwd = gnl_strjoin(oldpwd, "/");
-	newpwd = gnl_strjoin(oldpwd, path);
+	oldpwd = findpath(envp);
+	oldpwd = ft_strjoin(oldpwd, "/");
+	newpwd = ft_strjoinfree(oldpwd, path);
 	if (goahead(newpwd))
 		chdir(newpwd);
 	free(newpwd);
 }
 
-int	cd(char *fullcmd, char** envp)
+void	cd(char *fullcmd, char** envp)
 {
-	if (fullcmd[3] == '\')
+	if (fullcmd[0] == '/')
 	{
-		if(goahead(fullcmd + 3))
-			chdir(fullcmd + 3);
+		if(goahead(fullcmd))
+			chdir(fullcmd);
 	}
 	else
 		casenotbase(fullcmd, envp);
+}
+
+int	main (int ac, char **av, char **envp)
+{
+	(void)ac;
+	cd(av[1], envp);
+	return (0);
 }
