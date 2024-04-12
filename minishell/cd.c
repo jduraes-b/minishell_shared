@@ -6,7 +6,7 @@
 /*   By: jduraes- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 19:35:28 by jduraes-          #+#    #+#             */
-/*   Updated: 2024/04/03 21:36:53 by luguimar         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:31:03 by luguimar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,18 @@ static void	casenotbase(char *path, char **envp)
 	free(newpwd);
 }
 
-void	cd(char *fullcmd, char** envp)
+void	cd(char *fullcmd, char **envp)
 {
 	if (fullcmd[0] == '/')
 	{
-		if(goahead(fullcmd))
+		if (goahead(fullcmd))
 			chdir(fullcmd);
 	}
 	else
 		casenotbase(fullcmd, envp);
 }
 
-int	main (int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	cd(av[1], envp);
