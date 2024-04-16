@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_abs_value.c                                     :+:      :+:    :+:   */
+/*   matlen.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luguimar <luguimar@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jduraes- <jduraes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/14 15:52:58 by luguimar          #+#    #+#             */
-/*   Updated: 2023/10/14 15:54:12 by luguimar         ###   ########.fr       */
+/*   Created: 2024/04/12 22:13:35 by jduraes-          #+#    #+#             */
+/*   Updated: 2024/04/12 22:27:28 by jduraes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_abs_value(int n)
+size_t	ft_matlen(char **mat)
 {
-	if (n < 0)
-		n = -n;
-	return (n);
+	size_t	i;
+
+	i = 0;
+	while (mat[i] != NULL)
+		i++;
+	return (i);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luguimar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jduraes- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/28 15:20:34 by luguimar          #+#    #+#             */
-/*   Updated: 2023/05/15 01:54:39 by luguimar         ###   ########.fr       */
+/*   Created: 2023/05/03 12:53:15 by jduraes-          #+#    #+#             */
+/*   Updated: 2023/05/05 17:04:55 by jduraes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
-	size_t	strlength;
+	size_t	strlenght;
 	char	*str;
 
 	i = start;
-	strlength = 0;
+	strlenght = 0;
 	if (start >= ft_strlen(s))
 	{
 		str = malloc(sizeof(char) * 1);
@@ -28,14 +28,21 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		*str = '\0';
 		return (str);
 	}
-	while (s[i] != '\0' && strlength < len)
+	while (s[i] != '\0' && strlenght < len)
 	{
 		i++;
-		strlength++;
+		strlenght++;
 	}
-	str = malloc(sizeof(char) * strlength + 1);
+	i = start;
+	str = malloc(sizeof(char) * strlenght + 1);
 	if (!str)
 		return (NULL);
-	ft_strlcpy(str, s + start, strlength + 1);
+	ft_strlcpy(str, s + start, strlenght + 1);
 	return (str);
 }
+/*
+int	main(void)
+{
+	ft_substr("a", 0, 1);
+	return (0);
+}*/

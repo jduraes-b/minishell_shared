@@ -3,89 +3,102 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luguimar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jduraes- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/05 13:25:12 by luguimar          #+#    #+#             */
-/*   Updated: 2023/05/08 16:12:44 by luguimar         ###   ########.fr       */
+/*   Created: 2023/04/28 18:17:56 by jduraes-          #+#    #+#             */
+/*   Updated: 2023/05/08 17:21:36 by jduraes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-long int	module(int n)
-{
-	long int	i;
-
-	if (n < 0)
-		i = - (long int) n;
-	else
-		i = (long int) n;
-	return (i);
-}
-
-int	algcounter(int n)
+void	convert(char *str, long int n, int isnega)
 {
 	int	i;
 
-	i = 1;
-	while (n / 10 != 0)
+	i = 0;
+	while (n > 0)
+	{
+		if ((n % 10) > 9)
+			str[i] = (n % 10) - 10 + 'a';
+		if ((n % 10) < 10)
+			str[i] = (n % 10) + '0';
+		n = n / 10;
+		i++;
+	}
+	if (isnega)
+		str[i++] = '-';
+	str[i] = '\0';
+}
+
+static int	algcount(long int n, int isnega)
+{
+	int	i;
+
+	i = 0;
+	if (n == 0)
+	{
+		return (1);
+	}
+	while (n > 0)
 	{
 		n = n / 10;
 		i++;
 	}
-	return (i);
+	return (i + isnega);
 }
 
-char	*isneg(int algcount, int n)
+void	rstr(char *str, int size)
 {
 	int		i;
-	char	*nbr;
+	int		ii;
+	char	temp;
 
-	nbr = malloc((algcount + 2) * sizeof(char));
-	if (!nbr)
-		return (NULL);
-	nbr[0] = '-';
-	nbr[algcount + 1] = '\0';
-	i = algcount;
-	while (i > 0)
+	i = size - 1;
+	ii = 0;
+	if (*str == '\0')
 	{
-		nbr[i] = (char)(module(n) % 10L + '0');
-		n = n / 10;
-		i--;
+		str[i] = '0';
+		str[i + 1] = '\0';
 	}
-	return (nbr);
+	while (ii < size / 2)
+	{
+		temp = str[i];
+		str[i] = str[ii];
+		str[ii] = temp;
+		i--;
+		ii++;
+	}
 }
 
 char	*ft_itoa(int n)
 {
-	char	*nbr;
-	int		algcount;
-	int		i;
+	long int	ln;
+	int			isnega;
+	int			size;
+	char		*str;
 
-	algcount = algcounter(n);
-	if (n >= 0)
+	ln = n;
+	isnega = 0;
+	if (ln < 0)
 	{
-		nbr = malloc((algcount + 1) * sizeof(char));
-		if (!nbr)
-			return (NULL);
-		nbr[algcount] = '\0';
-		i = algcount - 1;
-		while (i >= 0)
-		{
-			nbr[i] = (char)(n % 10 + '0');
-			n = n / 10;
-			i--;
-		}
+		isnega = 1;
+		ln = -ln;
 	}
-	else
-		nbr = isneg(algcount, n);
-	return (nbr);
+	size = algcount(ln, isnega);
+	str = malloc(sizeof(char) * size + 1);
+	if (!str)
+		return (NULL);
+	convert(str, ln, isnega);
+	rstr(str, size);
+	return (str);
 }
 /*
 #include <stdio.h>
+
 int	main(int argc, char *argv[])
 {
-	int	n;
+	int		n;
 	char	*str;
 
 	if (argc == 2)
@@ -96,4 +109,5 @@ int	main(int argc, char *argv[])
 	}
 	else
 		printf("numero invalido de argumentos");
-}*/
+}
+*/

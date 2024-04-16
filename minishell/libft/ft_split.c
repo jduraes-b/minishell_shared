@@ -3,151 +3,124 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luguimar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jduraes- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/03 14:35:52 by luguimar          #+#    #+#             */
-/*   Updated: 2023/05/07 20:59:07 by luguimar         ###   ########.fr       */
+/*   Created: 2023/05/03 11:59:11 by jduraes-          #+#    #+#             */
+/*   Updated: 2023/05/05 18:23:42 by jduraes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	wordcounter(char const *s, char c)
-{
-	int	wordcount;
-	int	i;
-
-	if (!s)
-		return (0);
-	i = 0;
-	wordcount = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-			wordcount++;
-		i++;
-	}
-	return (wordcount);
-}
-
-static void	wordfiller(char *j, char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (j[i] != '\0' && j[i] != c)
-	{
-		str[i] = j[i];
-		i++;
-	}
-	str[i] = '\0';
-}
-
-static void	strfiller(char *s, char **str, char c)
+void	fillvec(char *s, char **str, char c)
 {
 	int	i;
 	int	j;
 	int	k;
-	int	nextc;
 
 	i = 0;
-	k = 0;
-	nextc = 0;
+	j = 0;
 	while (s[i] != '\0')
 	{
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
+		k = 0;
+		while (s[i] == c)
+			i++;
+		while (s[i] != c && s[i] != '\0')
 		{
-			j = i + 1;
-			while (--j >= nextc)
-			{
-				if (((j == 0 && s[j] != c) || s[j - 1] == c))
-				{
-					nextc = j + 1;
-					wordfiller(s + j, str[k], c);
-					k++;
-				}
-			}
+			str[j][k] = s[i];
+			k++;
+			i++;
+			str[j][k] = '\0';
 		}
-		i++;
+		j++;
 	}
 }
 
-static void	strmalloc(int *j, char ***str, int *k)
+int	ft_wc(char *str, char c)
 {
-	(*str)[*k] = malloc((*j + 1) * sizeof(char));
-	if (!(*str)[*k])
+	int	wc;
+	int	i;
+
+	wc = 0;
+	i = 0;
+	if (str[i] == '\0')
+		return (0);
+	while (str[i] != '\0')
 	{
-		while (*k > 0)
+		if (str[i] != c && (str[i + 1] == c || str[i + 1] == '\0'))
 		{
-			*k = (*k) - 1;
-			free((void *)(*str)[*k]);
-			(*str)[*k] = NULL;
+			wc++;
 		}
-		free(*str);
-		*str = NULL;
+		i++;
 	}
-	*k = (*k) + 1;
-	*j = 0;
+	return (wc);
+}
+
+int	ft_ws(char *s, char c, int *jj)
+{
+	int	ws;
+	int	j;
+
+	j = *jj;
+	ws = 0;
+	while (s[j] == c)
+		j++;
+	while (s[j] != c && s[j] != '\0')
+	{
+		ws++;
+		j++;
+	}
+	*jj = j;
+	return (ws);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	int		i;
-	int		j;
-	int		k;
 	char	**str;
+	char	*ss;
+	int		i;
+	int		wc;
+	int		j;
 
-	i = -1;
-	j = 1;
-	k = 0;
-	str = malloc((wordcounter(s, c) + 1) * sizeof(char *));
-	if (!str || !s)
+	j = 0;
+	ss = (char *)s;
+	wc = ft_wc(ss, c);
+	str = malloc(sizeof(char *) * (wc + 1));
+	if (!str)
 		return (NULL);
-	str[wordcounter(s, c)] = NULL;
-	while (s[++i] != '\0')
+	i = 0;
+	while (i < wc)
 	{
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-		{
-			strmalloc(&j, &str, &k);
-			if (!str)
-				return (NULL);
-		}
-		if (s[i] != c)
-			j++;
+		str[i] = malloc(sizeof(char) * (ft_ws(ss, c, &j) + 1));
+		if (!str[i])
+			return (NULL);
+		i++;
+		j++;
 	}
-	strfiller((char *)s, str, c);
+	str[wc] = NULL;
+	fillvec(ss, str, c);
 	return (str);
 }
 /*
-#include <stdio.h>
-
 int	main(int argc, char *argv[])
 {
-	int	i;
-
-	i = 0;
+	int	i = 0;
+	int	j = 0;
+	char	**vec;
 	if (argc == 3)
 	{
-		char **result = ft_split(argv[1], argv[2][0]);
-		if (result)
+		vec = ft_split(argv[1], argv[2][0]);
+		while (vec[i] != NULL)
 		{
-			while (result[i] != NULL)
+			j = 0;
+			while(vec[i][j] != '\0')
 			{
-				printf("%s$\n", result[i]);
-				i++;
+				write(1, &vec[i][j], 1);
+				j++;
 			}
-			i = 0;
-			while (result[i] != NULL)
-			{
-				free(result[i]);
-				i++;
-			}
-			free(result);
+			write(1, "\n", 1);
+			i++;
 		}
-		else
-			printf("a alocaçao de memoria falhou");
 	}
-	else
-		printf("numero invalido de argumentos");
-	return (0);
+	write (1, "\n", 1);
 }*/

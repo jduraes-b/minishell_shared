@@ -3,30 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luguimar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jduraes- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/07 18:44:13 by luguimar          #+#    #+#             */
-/*   Updated: 2023/05/07 18:44:27 by luguimar         ###   ########.fr       */
+/*   Created: 2023/05/08 16:49:07 by jduraes-          #+#    #+#             */
+/*   Updated: 2023/05/08 17:21:22 by jduraes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_putnbr_fd(int n, int fd)
+static int	algcount(int n)
 {
-	long int	l;
-	int			char_counter;
+	int	i;
 
-	char_counter = 0;
-	l = (long int)n;
-	if (l < 0)
+	i = 0;
+	if (n == 0)
+		return (1);
+	while (n > 0)
 	{
-		ft_putchar_fd('-', fd);
-		char_counter++;
-		l = -l;
+		n = n / 10;
+		i++;
 	}
-	if (l > 9)
-		char_counter += ft_putnbr_fd(l / 10, fd);
-	ft_putchar_fd(l % 10 + '0', fd);
-	return (char_counter);
+	return (i);
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	int		i;
+	int		alg;
+	char	str[12];
+
+	if (n == -2147483648)
+	{
+		write(fd, "-2", 2);
+		n = 147483648;
+	}
+	if (n < 0)
+	{
+		write(fd, "-", 1);
+		n = -n;
+	}
+	i = algcount(n);
+	alg = i;
+	str[i] = '\0';
+	while (i > 0)
+	{
+		str[i - 1] = ((char)(n % 10) + '0');
+		n = n / 10;
+		i--;
+	}
+	write(fd, str, alg);
 }

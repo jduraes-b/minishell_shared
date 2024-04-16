@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   int_size_utils.c                                   :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luguimar <luguimar@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jduraes- <jduraes-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 16:51:52 by luguimar          #+#    #+#             */
-/*   Updated: 2023/12/19 16:52:53 by luguimar         ###   ########.fr       */
+/*   Created: 2024/04/10 20:15:04 by jduraes-          #+#    #+#             */
+/*   Updated: 2024/04/12 19:06:10 by jduraes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	bigger(int a, int b)
+int	main(int argc, char **argv, char **envp)
 {
-	if (a > b)
-		return (a);
-	return (b);
-}
+	t_shell	shell;
 
-int	smaller(int a, int b)
-{
-	if (a < b)
-		return (a);
-	return (b);
+	shell = (t_shell *)calloc(1, sizeof(t_shell));
+	getenv(shell, envp);
 }

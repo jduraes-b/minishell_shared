@@ -1,39 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luguimar <luguimar@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jduraes- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 12:39:06 by luguimar          #+#    #+#             */
-/*   Updated: 2023/11/09 12:40:50 by luguimar         ###   ########.fr       */
+/*   Created: 2023/11/09 18:42:47 by jduraes-          #+#    #+#             */
+/*   Updated: 2023/11/09 18:45:23 by jduraes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-long long	ft_atol(const char *nptr)
+long	ft_atol(const char *str)
 {
-	long long	sum;
-	long long	sign;
-	int			i;
+	int		i;
+	long	nr;
+	long	sign;
 
 	i = 0;
-	sum = 0;
+	nr = 0;
 	sign = 1;
-	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
+	while (str[i] && str[i] == 32)
 		i++;
-	if (nptr[i] == '+')
+	if (!str[i])
+		return (0);
+	if (str[i] == '+')
 		i++;
-	else if (nptr[i] == '-')
+	else if (str[i] == '-')
 	{
-		sign = -1;
+		sign = -sign;
 		i++;
 	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
+	while (str[i] && ft_isdigit(str[i]))
 	{
-		sum = sum * 10 + (nptr[i] - '0');
+		nr = nr * 10 + str[i] - '0';
 		i++;
 	}
-	return (sum * sign);
+	return (nr * sign);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luguimar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jduraes- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/28 12:42:35 by luguimar          #+#    #+#             */
-/*   Updated: 2023/04/28 14:12:35 by luguimar         ###   ########.fr       */
+/*   Created: 2023/04/25 13:11:24 by jduraes-          #+#    #+#             */
+/*   Updated: 2023/04/25 13:51:32 by jduraes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,25 @@
 
 int	ft_atoi(const char *nptr)
 {
-	int	sum;
-	int	sign;
 	int	i;
+	int	result;
+	int	sign;
 
 	i = 0;
-	sum = 0;
+	result = 0;
 	sign = 1;
-	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
+	while ((nptr[i] > 8 && nptr[i] < 14) || nptr[i] == ' ')
 		i++;
-	if (nptr[i] == '+')
-		i++;
-	else if (nptr[i] == '-')
+	if (nptr[i] == 45 || nptr[i] == 43)
 	{
-		sign = -1;
+		if (nptr[i] == 45)
+			sign = -sign;
 		i++;
 	}
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
-		sum = sum * 10 + (nptr[i] - '0');
+		result = result * 10 + ((int)nptr[i] - 48);
 		i++;
 	}
-	return (sum * sign);
+	return (result * sign);
 }

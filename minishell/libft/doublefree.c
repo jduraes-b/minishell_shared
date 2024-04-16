@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_matrixlen.c                                     :+:      :+:    :+:   */
+/*   doublefree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luguimar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jduraes- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/12 19:03:06 by luguimar          #+#    #+#             */
-/*   Updated: 2023/10/12 19:49:57 by luguimar         ###   ########.fr       */
+/*   Created: 2023/09/21 19:45:29 by jduraes-          #+#    #+#             */
+/*   Updated: 2023/09/21 19:45:46 by jduraes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_matrixlen(void **matrix)
+void	doublefree(char **str)
 {
 	int	i;
 
 	i = 0;
-	while (matrix[i] != NULL)
+	while (str[i])
+	{
+		free(str[i]);
 		i++;
-	return (i);
+	}
+	free(str);
 }

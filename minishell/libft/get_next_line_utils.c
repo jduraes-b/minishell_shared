@@ -1,64 +1,58 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luguimar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jduraes- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/17 03:40:49 by luguimar          #+#    #+#             */
-/*   Updated: 2023/08/08 22:44:20 by luguimar         ###   ########.fr       */
+/*   Created: 2023/06/21 20:41:00 by jduraes-          #+#    #+#             */
+/*   Updated: 2023/06/21 20:54:26 by jduraes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strchrnum(const char *s, int c)
+int	ft_strlenplus(char *s, char c)
 {
-	int		i;
-	char	c1;
+	int	i;
 
 	i = 0;
-	c1 = (char)c;
-	if (c1 == '\0')
+	if (c == '\n')
 	{
-		while (s[i] != c1)
+		while (s && s[i] != '\0' && s[i] != '\n')
 			i++;
-		return (i);
+		if (s[i] == c)
+			return (i);
+		return (-1);
 	}
-	else
-	{
-		while (s[i] != c1 && s[i] != '\0')
-			i++;
-		if (s[i] == '\0')
-			return (-1);
-	}
+	while (s && s[i] != '\0')
+		i++;
 	return (i);
 }
 
-char	*ft_strjoinfree(char *s1, char *s2)
+char	*ft_gnlstrjoin(char *s1, char *s2)
 {
+	char	*str;
 	int		i;
 	int		j;
-	char	*str;
 
-	str = malloc((ft_strchrnum(s1, '\0') + ft_strchrnum(s2, '\0') + 1)
-			* sizeof(char));
+	str = malloc(sizeof(char) * (ft_strlenplus(s1, 0) + ft_strlenplus(s2, 0))
+			+ 1);
 	if (!str)
-	{
-		free(s1);
 		return (NULL);
-	}
-	i = -1;
-	while (s1[++i] != '\0')
-		str[i] = s1[i];
-	j = 0;
-	while (s2[j] != '\0')
+	i = 0;
+	while (s1 && s1[i])
 	{
-		str[i] = s2[j];
+		str[i] = s1[i];
 		i++;
+	}
+	j = 0;
+	while (s2[j])
+	{
+		str[i + j] = s2[j];
 		j++;
 	}
-	str[i] = '\0';
+	str[i + j] = '\0';
 	free(s1);
 	return (str);
 }
